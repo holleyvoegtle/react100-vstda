@@ -7,8 +7,20 @@ class ToDoBox extends Component {
         this.state = {
             addNewTask: [], // the input where it asks for new to do
             askPriority: '', // drop down menu for priority
-            submitAdd: '' // add button 
-        }
+            
+        };
     }
-
-}
+    render() {
+        return (
+            <div>
+                <form onSubmit={this.handleSubmit}>
+                    <input 
+                        value={this.state.addNewTask} 
+                        onChange={this.handleChange} />
+                    <button type='priority'>Priority</button>
+                </form>
+            </div>
+        );
+    }
+};
+export default ToDoBox;
