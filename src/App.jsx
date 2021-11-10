@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ToDoBox from "./ToDoBox";
-import editDropdown from "./editDropdown";
-import forEachTask from "./forEachTask";
+import EditDropdown from "./EditDropdown";
+import ForEachTask from "./ForEachTask";
 
 // This is for the results box
 class App extends Component {
@@ -11,43 +11,34 @@ class App extends Component {
       toDoList: [],
       id: 0, // unique number for each new todo
       priority: '', // drop down menu for priority
-      description: "",
+      description: '',
+      updatePriority: ''
       // this is where the state is held
     };
-
-    this.completeTask = this.completeTask.bind(this); // check off task
-    this.editTask = this.editTask.bind(this); // edit button on task which will open the edit form
-    this.deleteTask = this.deleteTask.bind(this); // trash can to remove task
-    this.openEditTask = this.openEditTask.bind(this); // this form results from editTask
-    this.descriptionInput = this.descriptionInput.bind(this); // description box from openEditTask form
+    
+    
+    this.clickDescription = this.clickDescription.bind(this); // description box from openEditTask form
+    this.changePriority = this.changePriority.bind(this); // this is for the edit dropDown
     this.selectPriority = this.selectPriority.bind(this); // selects priority low, med, high
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.changeColor = this.changeColor.bind(this);
+    this.inputColor = this.inputColor.bind(this);
   }
 
-  completeTask(i) { // check off and strikethrough?
-    
-  } 
+  
 
-  editTask() {}
+  clickDescription() {} // this is for the editDropDown?
 
-  deleteTask() {
-    let newTodoList = this.state.toDoList.slice();
-    newTodoList.splice(i, 1);
-    this.setState({ toDoList: newTodoList});
-  }
+  changePriority() {} // this is for the editDropDown? 
 
-  openEditTask() {}
-
-  descriptionInput() {}
 
   selectPriority(event) {
-    // need to change color here with priorty. Use a tertiary?
+    // need to change color here with priorty. 
     this.setState({ priority: event.target.value }, () => console.log(this.state.priority, "yeahhhh"))
   }
 
-  changeColor(priority) {
+  inputColor(priority) { // where does this go?
+
     if (priority === "1") { // green- success
       return "alert-alert-success";
     } else if (priority === "2") { // yellow- warning
@@ -59,11 +50,22 @@ class App extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    let singleTodoItem = {
+      id: 1 + Math.random(),
+      description: this.state.description,
+      priority: this.state.priority,
+      completed: false,
+      edits: false
+    }
+    
+    this.state.toDoList.push(singleTodoItem);
     this.setState({
-      priority: this.state.addNewTask,
-    });
+      toDoList: this.state.toDoList
+    }, () =>  console.log(this.state.toDoList));
+   
+    
   }
-  handleChange(event) {
+  handleChange(event) { // this is the input description
     this.setState({
       description: event.target.value,
     });
@@ -72,17 +74,54 @@ class App extends Component {
   }
 
   render() {
-    const listOfItems = this.state.toDoList.map((i) => <li>{i}</li>);
+    const listOfItems = this.state.toDoList.map((task) => 
+    <ForEachTask 
+    key={task.id} 
+    text={task.description}
+
+    />);
     return (
-      <div className="container">
-        <h1 style={{ color: "white" }}>Very Simple Todo App</h1>
-        <h4 style={{ color: "white" }}>Track all of the things</h4>
+      <div className='container'>
+        <h1 className='text-white'>Very Simple Todo App</h1>
+        <h4 className='lead text white'>Track all of the things</h4>
         <hr />
 
-        <div className="row justify-content-start">
-          <ToDoBox handleChange={this.handleChange} priority={this.state.priority} description={this.state.description} selectPriority={this.selectPriority}/>
+        <div className='row'>
+        <div className='col-sm-4'>
+          <ToDoBox 
+            handleChange={this.handleChange} 
+            priority={this.state.priority} 
+            description={this.state.description} 
+            selectPriority={this.selectPriority} 
+            handleSubmit={this.handleSubmit}/>
+          
+          
+          <br></br>
+          <ForEachTask 
+            list={listOfItems}
+            
+          />
+          <div className='col-md-8'>
+          <div className='panel panel default'>
+            <div className='panel-heading' >View Todos</div>
+            <div className='panel-body no-padding'>
+              <ul className='list-group no-margin'></ul>
+
+              
+              </div>
+          
+          
+            <EditDropdown
+              delete = {this.deleteTask}
+
+
+              />
+          </div>
+          </div>
+          </div>
         </div>
       </div>
+      
     );
   }
 }
