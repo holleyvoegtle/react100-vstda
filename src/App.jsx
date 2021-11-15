@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import ToDoBox from "./ToDoBox";
-import EditDropdown from "./EditDropdown";
 import ForEachTask from "./ForEachTask";
 
-// This is for the results box
 class App extends Component {
   constructor(props) {
     super(props);
@@ -13,49 +11,79 @@ class App extends Component {
       priority: "", // drop down menu for priority
       description: "",
       updatePriority: "",
-      // this is where the state is held
     };
 
-    //this.editDescription = this.clickDescription.bind(this); // description box from openEditTask form
-    //this.changePriority = this.changePriority.bind(this); // this is for the edit dropDown
     this.selectPriority = this.selectPriority.bind(this); // selects priority low, med, high
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.inputColor = this.inputColor.bind(this);
     this.deleteTask = this.deleteTask.bind(this); // trash can to remove task
+    this.editTask = this.editTask.bind(this); // edit button on task which will open the edit form
+    this.saveChanges = this.saveChanges.bind(this); // this saves in editDropdown
+    this.completeTask = this.completeTask.bind(this); // check off task
   }
 
-  //clickDescription() {} // this is for the editDropDown?
-
-  //changePriority() {} // this is for the editDropDown?
-
-  deleteTask() {
-    // let newTodoList = this.state.toDoList.slice();
-    // newTodoList.splice(i, 1);
-    // this.setState({ toDoList: newTodoList });
-    console.log("should delete task")
+  deleteTask(id) {
+    let deleteTask = this.state.toDoList.filter((singleTodoItem) => {
+      if (singleTodoItem.id !== id) {
+        return singleTodoItem;
+      }
+    });
+    this.setState({
+      toDoList: deleteTask,
+    });
   }
 
   selectPriority(event) {
-    // need to change color here with priorty.
-    this.setState({ priority: event.target.value }, () =>
-      console.log(this.state.priority, "yeahhhh")
+    this.setState({ priority: event.target.value }
     );
   }
 
   inputColor(priority) {
-    // where does this go?
-
-    if (priority === "1") {
+    if (priority == "1") {
       // green- success
-      return "alert-alert-success";
-    } else if (priority === "2") {
+      return "alert alert-success";
+    } else if (priority == "2") {
       // yellow- warning
-      return "alert-alert-warning";
-    } else if (priority === "3") {
+      return "alert alert-warning";
+    } else if (priority == "3") {
       // red- danger
-      return "alert-alert-danger";
+      return "alert alert-danger";
     }
+  }
+
+  editTask(id) {
+    this.setState((prevState) => ({
+      toDoList: prevState.toDoList.map((singleTodoItem) => {
+        if (singleTodoItem.id == id) {
+          singleTodoItem.edits = !singleTodoItem.edits;
+        }
+        return singleTodoItem;
+      }),
+    }));
+  }
+
+  completeTask(id) {
+    this.setState((prevState) => ({
+      toDoList: prevState.toDoList.map((singleTodoItem) => {
+        if (singleTodoItem.id == id) {
+          singleTodoItem.completed = !singleTodoItem.completed;
+        }
+        return singleTodoItem;
+      }),
+    }));
+  }
+  saveChanges(id, editDescription, changePriority) {
+    this.setState((prevState) => ({
+      toDoList: prevState.toDoList.map((singleTodoItem) => {
+        if (singleTodoItem.id == id) {
+          singleTodoItem.description = editDescription;
+          singleTodoItem.priority = changePriority;
+          singleTodoItem.edits = false;
+        }
+        return singleTodoItem;
+      }),
+    }));
   }
 
   handleSubmit(event) {
@@ -66,14 +94,17 @@ class App extends Component {
       priority: this.state.priority,
       completed: false,
       edits: false,
+      
     };
 
     this.state.toDoList.push(singleTodoItem);
     this.setState(
       {
         toDoList: this.state.toDoList,
+        description: '',  // these 2 return the form back to empty
+        priority: ''
       },
-      () => console.log(this.state.toDoList)
+      
     );
   }
   handleChange(event) {
@@ -81,50 +112,60 @@ class App extends Component {
     this.setState({
       description: event.target.value,
     });
-    console.log(this.state.description, "it was clicked");
-    //console.log(this.state.priority, "it was clicked");
   }
 
   render() {
-    // const listOfItems =
     return (
       <div className="container">
         <h1 className="text-white">Very Simple Todo App</h1>
         <h4 className="lead text white">Track all of the things</h4>
         <hr />
-        
 
         <div className="row justify-content-start">
           <div className="col-4">
-            <div className='card'>
-            <ToDoBox
-              handleChange={this.handleChange}
-              priority={this.state.priority}
-              description={this.state.description}
-              selectPriority={this.selectPriority}
-              handleSubmit={this.handleSubmit}
-            />
+            <div className="card">
+              <ToDoBox
+                handleChange={this.handleChange}
+                priority={this.state.priority}
+                description={this.state.description}
+                selectPriority={this.selectPriority}
+                handleSubmit={this.handleSubmit}
+              />
+            </div>
           </div>
-          </div>
-
-          
 
           <div className="col-8">
             <div className="card">
               <div className="card-header">View Todos</div>
-              <div className="card-body">
-                {this.state.toDoList.map((task) => (
-                  <ForEachTask
-                    key={task.id}
-                    text={task.description}
-                    completed={task.completed}
-                    edits={task.edits}
-                    id={task.id}
-                    priority={task.priority}
-                    deleteTask={this.deleteTask}
-                  />
-                ))}
-              </div>
+              {this.state.toDoList.length > 0 ? (
+                <div className="card-body">
+                  {this.state.toDoList.map((task) => (
+                    <ForEachTask
+                      key={task.id}
+                      description={task.description}
+                      completed={task.completed}
+                      edits={task.edits}
+                      id={task.id}
+                      priority={task.priority}
+                      deleteTask={this.deleteTask}
+                      editTask={this.editTask}
+                      handleChange={this.handleChange}
+                      saveChanges={this.saveChanges}
+                      inputColor={this.inputColor}
+                      toDoList={this.state.toDoList}
+                      completeTask={this.completeTask}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div
+                  className="list-group-item list-group-item-info"
+                  style={{ padding: "10px" }}>
+
+                  <h5>Welcome to a Very Simple To Do App</h5>
+                  Get started by adding todo item on the left
+                </div>
+              )}
             </div>
           </div>
         </div>

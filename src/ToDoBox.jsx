@@ -24,8 +24,7 @@ class ToDoBox extends Component {
               onChange={this.props.selectPriority}
               value={this.props.priority}
               name="priority"
-              id="select-priority"
-            >
+              id="select-priority">
               <option value="0">Select a Priority</option>
               <option value="1">Low Priority</option>
               <option value="2">Mid Priority</option>
@@ -38,7 +37,9 @@ class ToDoBox extends Component {
           <div className="d-grid gap-2">
             <button
               className="btn btn-primary"
-              onClick={this.props.handleSubmit}>Add</button>
+              onClick={this.props.handleSubmit}>
+              Add
+            </button>
           </div>
         </div>
       </div>

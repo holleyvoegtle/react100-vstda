@@ -1,84 +1,71 @@
 import React, { Component } from "react";
-import App from "./App";
 
 
-// This is for when a task is to be edited after opening. 
-
-// I will need:
-        // edit description 
-        // priority change?
-        // save button
+// This is for when a task is to be edited after opening.
 
 class EditDropdown extends Component {
-     constructor(props) {
-         super(props);
-         
+  constructor(props) {
+    super(props);
+    this.state = {
+      newEditDescription: this.props.editDescription,
+      newEditPriority: this.props.changePriority,
+    };
+    this.handleChangeNew = this.handleChangeNew.bind(this);
+  }
 
-        }
-    
-    
-        
-     }
+  handleChangeNew(event) {
+    // this is the new input description
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
 
-//     clickDescription(id) { ///this is from app
-//          this.props.clickDescription();
-//     }
+  render() {
+    return (
+      <div className="col-12">
+        <div className="card-body">
+          <h4 className="card-title">Description</h4>
+          <textarea
+            onChange={this.handleChangeNew}
+            value={this.state.newEditDescription}
+            type="text"
+            name="newEditDescription"
+          ></textarea>
 
-    // changePriority(id) { // this should change the priority or give that option
-    //      this.props.changePriority();
-//     }
+          <h4 className="card-title">Priority?</h4>
+          <select
+            onChange={this.handleChangeNew}
+            value={this.state.newEditPriority}
+            name="newEditPriority"
+            id="select-priority">
 
-//     // save button goes in render? 
+            <option value="0">Select a Priority</option>
+            <option value="1">Low Priority</option>
+            <option value="2">Mid Priority</option>
+            <option value="3">High Priority</option>
+          </select>
+          <div></div>
+        </div>
 
-    render() {
-        let editStatus = this.props.edits;
-        if (editStatus) {
-            return (
-                <div classname='col-4'>
-                    <div className='card'>
-                        <div className='card-header'>View Todos</div>
-                        <div className='card-body'>
-                            <h4 className='card-title'>Description</h4>
-                            <textarea
-                                onChange={this.props.handleChange}
-                                value={this.props.editDescription}
-                                type='text'
-                                name='description'
-                            ></textarea>
-                            </div>
-
-                            <h4 className='card-title'>Priority?</h4>
-                            <select 
-                                onChange={this.props.handleChange} 
-                                value={this.props.changePriority} 
-                                name='priority' 
-                                id='select-priority'>
-                                <option value='0' >Select a Priority</option>
-                                <option value='1' >Low Priority</option>
-                                <option value='2' >Mid Priority</option>
-                                <option value='3' >High Priority</option>
-                            </select>
-
-                            <div className='card-footer'>
-                                <div className='d-grid gap-2'>
-                                    <button className='btn btn-primary' 
-                                    onClick={this.handleChange.bind(this)} 
-                                    name='update-todo'>Save</button>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-        
-        )
-        } else {
-            return null;
-        }
-    
-    }       
-    
-        
-
-
-
+        <div className="card-footer">
+          <div className="d-grid gap-2">
+            <button
+              className="btn btn-primary"
+              onClick={() =>
+                this.props.saveChanges(
+                  this.props.id,
+                  this.state.newEditDescription,
+                  this.state.newEditPriority
+                )
+              }
+              name="update-todo">
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default EditDropdown;
