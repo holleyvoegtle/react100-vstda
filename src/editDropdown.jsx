@@ -30,6 +30,7 @@ class EditDropdown extends Component {
             value={this.state.newEditDescription}
             type="text"
             name="newEditDescription"
+            className="update-todo-text"
           ></textarea>
 
           <h4 className="card-title">Priority?</h4>
@@ -37,7 +38,8 @@ class EditDropdown extends Component {
             onChange={this.handleChangeNew}
             value={this.state.newEditPriority}
             name="newEditPriority"
-            id="select-priority">
+            id="select-priority"
+            className="update-todo-priority">
 
             <option value="0">Select a Priority</option>
             <option value="1">Low Priority</option>
@@ -50,7 +52,7 @@ class EditDropdown extends Component {
         <div className="card-footer">
           <div className="d-grid gap-2">
             <button
-              className="btn btn-primary"
+              className="btn btn-primary update-todo"
               onClick={() =>
                 this.props.saveChanges(
                   this.props.id,
@@ -58,7 +60,7 @@ class EditDropdown extends Component {
                   this.state.newEditPriority
                 )
               }
-              name="update-todo">
+              >
               Save
             </button>
           </div>

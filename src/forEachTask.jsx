@@ -25,7 +25,7 @@ class ForEachTask extends Component {
 
   render() {
     return (
-      <div className={this.props.inputColor(this.props.priority)}>
+      <li className={this.props.inputColor(this.props.priority)}>
         <div className="row">
           {this.props.edits === true ? (
             <EditDropdown
@@ -75,7 +75,7 @@ class ForEachTask extends Component {
             </div>
           )}
         </div>
-      </div>
+      </li>
     );
   }
 }

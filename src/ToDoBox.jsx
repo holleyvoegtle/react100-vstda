@@ -9,13 +9,14 @@ class ToDoBox extends Component {
           <div className="card-header">Add New Todo</div>
           <div className="card-body">
             <div className="form-group">
-              <h4 className="card-title">I want to...</h4>
+              <h4 className="card-title" >I want to...</h4>
               <textarea
                 onChange={this.props.handleChange}
                 value={this.props.description}
                 placeholder="Enter description here"
                 type="text"
                 name="description"
+                className="create-todo-text"
               ></textarea>
             </div>
 
@@ -24,7 +25,10 @@ class ToDoBox extends Component {
               onChange={this.props.selectPriority}
               value={this.props.priority}
               name="priority"
-              id="select-priority">
+              id="select-priority"
+              className="form-control input-md create-todo-priority" // this is for tests?
+              > 
+
               <option value="0">Select a Priority</option>
               <option value="1">Low Priority</option>
               <option value="2">Mid Priority</option>
@@ -36,8 +40,9 @@ class ToDoBox extends Component {
         <div className="card-footer">
           <div className="d-grid gap-2">
             <button
-              className="btn btn-primary"
-              onClick={this.props.handleSubmit}>
+              className="btn btn-primary create-todo"
+              onClick={this.props.handleSubmit}
+              >
               Add
             </button>
           </div>
