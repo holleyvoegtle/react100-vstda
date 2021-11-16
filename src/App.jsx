@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ToDoBox from "./ToDoBox";
-import ForEachTask from "./ForEachTask";
+import ForEachTask from "./EachTask";
 
 class App extends Component {
   constructor(props) {
