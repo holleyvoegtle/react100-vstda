@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ToDoBox from "./ToDoBox";
-import ForEachTask from "./EachTask";
+import EachTask from "./EachTask";
 
 class App extends Component {
   constructor(props) {
@@ -140,7 +140,7 @@ class App extends Component {
               {this.state.toDoList.length > 0 ? (
                 <div className="card-body">
                   {this.state.toDoList.map((task) => (
-                    <ForEachTask
+                    <EachTask
                       key={task.id}
                       description={task.description}
                       completed={task.completed}

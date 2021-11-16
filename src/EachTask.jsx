@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import EditDropdown from "./Dropdown";
+import Dropdown from "./Dropdown";
 
 // This is for the indivdual task you see listed.
 
 
-class ForEachTask extends Component {
+class EachTask extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +28,7 @@ class ForEachTask extends Component {
       <li className={this.props.inputColor(this.props.priority)}>
         <div className="row">
           {this.props.edits === true ? (
-            <EditDropdown
+            <Dropdown
               editDescription={this.props.description}
               changePriority={this.props.priority}
               id={this.props.id}
@@ -80,4 +80,4 @@ class ForEachTask extends Component {
   }
 }
 
-export default ForEachTask;
+export default EachTask;

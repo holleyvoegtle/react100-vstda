@@ -3,7 +3,7 @@ import React, { Component } from "react";
 
 // This is for when a task is to be edited after opening.
 
-class EditDropdown extends Component {
+class Dropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,4 +70,4 @@ class EditDropdown extends Component {
   }
 }
 
-export default EditDropdown;
+export default Dropdown;
